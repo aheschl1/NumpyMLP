@@ -83,11 +83,22 @@ class MSE(Layer):
     def forward(self, x, y, *_):
         super().forward(x)
         self.y = y
-        return np.mean((1/2)*((x - y) ** 2))
+        return np.mean((1 / 2) * ((x - y) ** 2))
 
     def backward(self, grad):
         dx = grad * (self.x - self.y)
         return dx
+
+
+class Tanh(Layer):
+    def forward(self, x, *_):
+        super().forward(x)
+        out = np.tanh(x)
+        self.out = out
+        return out
+
+    def backward(self, grad):
+        return grad * (1 - self.out ** 2)
 
 
 class NeuralNetwork:
